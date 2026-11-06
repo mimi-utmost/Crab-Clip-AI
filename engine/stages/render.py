@@ -73,4 +73,4 @@ def run_stage(cfg: Config, db: DB, video_id: int) -> None:
         db.add_clip(momento["id"], str(out), encoder)
         db.set_moment_status(momento["id"], "rendered")
         print(f"  render: clipe {momento['id']} ({momento['end_s'] - momento['start_s']:.0f}s, "
-              f"{encoder}) → {out.name}")
+              f"{encoder}) -> {out.name}")

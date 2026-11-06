@@ -11,6 +11,7 @@ Os candidatos do LLM são higienizados antes de virar clipe:
 from __future__ import annotations
 
 import json
+import shutil
 
 from engine.config import Config
 from engine.db import DB
@@ -65,6 +66,9 @@ def run_stage(cfg: Config, db: DB, video_id: int) -> None:
     selecionados = selecionar(candidatos, palavras, cfg.clip_max_s,
                               cfg.clip_min_s, cfg.top_n)
     db.clear_moments(video_id)
+    clips_dir = video_dir / "clips"
+    if clips_dir.is_dir():
+        shutil.rmtree(clips_dir)
     for m in selecionados:
         db.add_moment(video_id, m["start"], m["end"], m["score"],
                       m.get("titulo", ""), m.get("motivo", ""))

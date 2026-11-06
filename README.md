@@ -9,19 +9,46 @@ Sem SaaS, sem nuvem, sem APIs comerciais pagas.
 
 ## Status
 
-**Fase 0 — validação de hardware.** Antes de qualquer pipeline, medimos o que o
-hardware alvo (Ryzen 5 5500 + RX 7600 8 GB) realmente entrega com Vulkan e AMF.
-Nenhum número é assumido: só entra na documentação o que foi medido em
-`tools/benchmark/`.
+**Fase 1 — engine funcional validada.** O pipeline completo (vídeo → transcrição
+→ análise semântica → cortes 9:16 legendados via AMF) já roda ponta a ponta no
+hardware alvo. Modelos e backends foram escolhidos por benchmark real — ver
+`docs/benchmarks/escolha-de-modelos.md`. Próxima fase: interface Tauri 2 + React.
 
 ## Estrutura
 
 ```
+engine/             motor de processamento (Python stdlib; ver seção abaixo)
+tests/              testes unitários do engine (pytest, dev-only)
 tools/benchmark/    harness de benchmark (Python stdlib apenas)
-docs/benchmarks/    relatórios e dados brutos (evidência versionada)
+docs/benchmarks/    relatórios, dados brutos e decisões (evidência versionada)
 models/             modelos locais (não versionados; só o escolhido permanece)
+work/               artefatos por vídeo + engine.db (não versionado)
 app/                (futuro) aplicação Tauri 2 + React/TypeScript
-engine/             (futuro) motor de processamento em Python
+```
+
+## Rodando o engine
+
+Requer que a fase 0 tenha sido executada (binários em `tools/benchmark/.work/`
+e modelos escolhidos em `models/manifest.json`).
+
+```bash
+py -3 -m engine.cli new "D:\caminho\live.mp4"   # registra o vídeo
+py -3 -m engine.cli run --id 1                  # roda o pipeline completo
+py -3 -m engine.cli run --id 1 --from render    # retoma de uma etapa
+py -3 -m engine.cli status                      # estado das etapas por vídeo
+py -3 -m engine.cli clips                       # clipes gerados
+```
+
+Etapas: `ingest` → `audio` → `transcribe` (whisper.cpp + VAD) → `analyze`
+(Qwen2.5-7B em Vulkan) → `select` (dedup, teto de 60 s, bordas em fim de
+palavra) → `render` (crop 9:16 + karaokê ASS + h264_amf, fallback x264).
+Os clipes saem em `work/<id>/clips/`.
+
+Testes:
+
+```bash
+py -3 -m pip install -e ".[dev]"   # ou: py -3 -m pip install pytest
+py -3 -m pytest tests/
 ```
 
 ## Rodando os benchmarks

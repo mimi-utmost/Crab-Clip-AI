@@ -26,6 +26,9 @@ sem nuvem, sem APIs comerciais pagas.
 - Commits em inglês, mensagens curtas no imperativo.
 - Resultados de benchmark são evidência: JSON bruto em `docs/benchmarks/raw/`
   é versionado junto com o relatório.
+- Fixtures de teste para parsers de saída externa (whisper, ffmpeg, llama)
+  devem ser capturadas de uma execução real — nunca escritas de cabeça.
+  Ver `gotchas` na memória do projeto (ex.: word timestamps do whisper.cpp).
 
 ## Fluxo de branches
 

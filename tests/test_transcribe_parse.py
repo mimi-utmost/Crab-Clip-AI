@@ -1,47 +1,50 @@
 import json
 
-from engine.stages.transcribe import parsear_saida_whisper
+from engine.stages.transcribe import palavras_de_tokens, parsear_saida_whisper
 
+# Formato real observado do whisper-cli -ojf (build b5454, large-v3-turbo)
 AMOSTRA = {
     "transcription": [
         {
-            "offsets": {"from": 0, "to": 2400},
-            "text": " e aí chat, beleza?",
-            "words": [
-                {"word": " e", "offsets": {"from": 0, "to": 300}},
-                {"word": " aí", "offsets": {"from": 300, "to": 600}},
-                {"word": " chat,", "offsets": {"from": 600, "to": 1100}},
-                {"word": " beleza?", "offsets": {"from": 1100, "to": 2400}},
+            "timestamps": {"from": "00:00:00,000", "to": "00:00:02,700"},
+            "offsets": {"from": 0, "to": 2700},
+            "text": " Salve, salve família!",
+            "tokens": [
+                {"text": "[_BEG_]", "offsets": {"from": 0, "to": 0}, "p": 0.51},
+                {"text": " Sal", "offsets": {"from": 50, "to": 150}, "p": 0.80},
+                {"text": "ve", "offsets": {"from": 250, "to": 250}, "p": 0.99},
+                {"text": ",", "offsets": {"from": 280, "to": 350}, "p": 0.66},
+                {"text": " sal", "offsets": {"from": 350, "to": 500}, "p": 0.99},
+                {"text": "ve", "offsets": {"from": 500, "to": 600}, "p": 0.99},
+                {"text": " família", "offsets": {"from": 620, "to": 980}, "p": 0.97},
+                {"text": "!", "offsets": {"from": 980, "to": 1020}, "p": 0.91},
             ],
-        },
-        {
-            "offsets": {"from": 2600, "to": 4200},
-            "text": " hoje tem novidade.",
-            "words": [
-                {"word": " hoje", "offsets": {"from": 2600, "to": 3100}},
-                {"word": " tem", "offsets": {"from": 3100, "to": 3400}},
-                {"word": " novidade.", "offsets": {"from": 3400, "to": 4200}},
-            ],
-        },
+        }
     ]
 }
 
 
-def test_parser_normaliza_tempos_e_palavras():
+def test_agrupa_tokens_em_palavras():
+    palavras = palavras_de_tokens(AMOSTRA["transcription"][0]["tokens"])
+    assert [p["word"] for p in palavras] == ["Salve,", "salve", "família!"]
+    assert palavras[0]["start"] == 0.05
+    assert palavras[0]["end"] == 0.35
+    assert palavras[-1]["end"] == 1.02
+
+
+def test_parser_normaliza_segmento():
     parsed = parsear_saida_whisper(AMOSTRA)
-    segs = parsed["segments"]
-    assert len(segs) == 2
-    assert segs[0]["start"] == 0.0
-    assert segs[0]["end"] == 2.4
-    assert segs[0]["text"] == "e aí chat, beleza?"
-    assert segs[0]["words"][0] == {"word": "e", "start": 0.0, "end": 0.3}
-    assert segs[1]["words"][-1]["word"] == "novidade."
+    seg = parsed["segments"][0]
+    assert seg["start"] == 0.0
+    assert seg["end"] == 2.7
+    assert seg["text"] == "Salve, salve família!"
+    assert 0.8 < seg["confidence"] < 1.0
+    assert len(seg["words"]) == 3
     assert json.dumps(parsed)  # serializável
 
 
-def test_parser_ignora_palavras_vazias():
-    dados = {"transcription": [{"offsets": {"from": 0, "to": 100}, "text": " x",
-                                "words": [{"word": "  ", "offsets": {"from": 0, "to": 50}},
-                                          {"word": " x", "offsets": {"from": 50, "to": 100}}]}]}
+def test_parser_sem_tokens_retorna_palavras_vazias():
+    dados = {"transcription": [{"offsets": {"from": 0, "to": 100}, "text": "x"}]}
     parsed = parsear_saida_whisper(dados)
-    assert [p["word"] for p in parsed["segments"][0]["words"]] == ["x"]
+    assert parsed["segments"][0]["words"] == []
+    assert parsed["segments"][0]["confidence"] is None
