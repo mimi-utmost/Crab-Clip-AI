@@ -9,6 +9,9 @@ __pycache__/
 /tools/benchmark/.work/
 /tools/benchmark/config.json
 
+# Artefatos do engine
+/work/
+
 # Futuro app Tauri
 /app/node_modules/
 /app/dist/
