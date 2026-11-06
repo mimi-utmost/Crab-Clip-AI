@@ -1,0 +1,55 @@
+{
+  "sistema": {
+    "coletado_em": "2026-11-06T05:02:34.110380+00:00",
+    "os": "Windows 10.0.26300",
+    "python": "3.14.2",
+    "cpu": "AMD Ryzen 5 5500",
+    "ram_gb": 15.9,
+    "gpus": [
+      {
+        "Name": "AMD Radeon RX 7600",
+        "DriverVersion": "32.0.32015.7029"
+      }
+    ]
+  },
+  "resultados": {
+    "origem_ffmpeg": "baixado para o projeto",
+    "amostra": "amostra-1080p60-60s.mp4",
+    "quadros": 3600,
+    "metodo_fps": "quadros_conhecidos / tempo_de_parede",
+    "testes": [
+      {
+        "teste": "amf_h264_1080p60",
+        "disponivel": true,
+        "tempo_s": 11.27,
+        "fps_medio": 319.3,
+        "tamanho_bytes": 60096121,
+        "pico_vram_mb": null
+      },
+      {
+        "teste": "x264_medium_1080p60",
+        "disponivel": true,
+        "tempo_s": 25.01,
+        "fps_medio": 143.9,
+        "tamanho_bytes": 50485992,
+        "pico_vram_mb": null
+      },
+      {
+        "teste": "amf_h264_vertical_9x16",
+        "disponivel": true,
+        "tempo_s": 13.54,
+        "fps_medio": 265.9,
+        "tamanho_bytes": 60124791,
+        "pico_vram_mb": 19.0
+      },
+      {
+        "teste": "x264_medium_vertical_9x16",
+        "disponivel": true,
+        "tempo_s": 26.37,
+        "fps_medio": 136.5,
+        "tamanho_bytes": 23773468,
+        "pico_vram_mb": null
+      }
+    ]
+  }
+}

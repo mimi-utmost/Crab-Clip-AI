@@ -1,0 +1,18 @@
+{
+  "sistema": {
+    "coletado_em": "2026-11-06T05:39:40.105251+00:00",
+    "os": "Windows 10.0.26300",
+    "python": "3.14.2",
+    "cpu": "AMD Ryzen 5 5500",
+    "ram_gb": 15.9,
+    "gpus": [
+      {
+        "Name": "AMD Radeon RX 7600",
+        "DriverVersion": "32.0.32015.7029"
+      }
+    ]
+  },
+  "resultados": {
+    "pulado": "nenhum release recente do llama.cpp com binários Windows encontrado"
+  }
+}

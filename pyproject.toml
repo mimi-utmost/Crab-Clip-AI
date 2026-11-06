@@ -1,0 +1,12 @@
+[project]
+name = "crab-clip-ai"
+version = "0.1.0"
+description = "Cortes verticais de lives com IA local (whisper.cpp + llama.cpp + FFmpeg)"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

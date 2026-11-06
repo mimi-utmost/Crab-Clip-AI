@@ -1,0 +1,18 @@
+{
+  "sistema": {
+    "coletado_em": "2026-11-06T05:11:56.844521+00:00",
+    "os": "Windows 10.0.26300",
+    "python": "3.14.2",
+    "cpu": "AMD Ryzen 5 5500",
+    "ram_gb": 15.9,
+    "gpus": [
+      {
+        "Name": "AMD Radeon RX 7600",
+        "DriverVersion": "32.0.32015.7029"
+      }
+    ]
+  },
+  "resultados": {
+    "pulado": "llama-bench não encontrado. Opções:\n  1. Deixe \"llama.auto_download_binaries\": true no config.json (baixa os zips\n     win-cpu-x64 e win-vulkan-x64 do release oficial para tools/benchmark/.work/)\n  2. Ou aponte \"llama.cpu_bench_exe\" e \"llama.vulkan_bench_exe\" para binários\n     llama-bench.exe já existentes."
+  }
+}

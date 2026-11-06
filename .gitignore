@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Artefatos locais do harness de benchmark
+/models/*
+!/models/.gitkeep
+/tools/benchmark/.work/
+/tools/benchmark/config.json
+
+# Futuro app Tauri
+/app/node_modules/
+/app/dist/
+/app/src-tauri/target/
+
+.env
