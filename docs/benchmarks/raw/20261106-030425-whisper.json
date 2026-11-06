@@ -1,0 +1,47 @@
+{
+  "sistema": {
+    "coletado_em": "2026-11-06T06:04:25.477401+00:00",
+    "os": "Windows 10.0.26300",
+    "python": "3.14.2",
+    "cpu": "AMD Ryzen 5 5500",
+    "ram_gb": 15.9,
+    "gpus": [
+      {
+        "Name": "AMD Radeon RX 7600",
+        "DriverVersion": "32.0.32015.7029"
+      }
+    ]
+  },
+  "resultados": {
+    "amostra": "D:\\Sons\\PORQUE DAREI UM TEMPO COM AION 2 E O QUE VEM POR AÍ_0_303.mp3",
+    "amostra_wav": "D:\\Workspace\\CrabClipAi\\tools\\benchmark\\.work\\PORQUE DAREI UM TEMPO COM AION 2 E O QUE VEM POR AÍ_0_303-16k.wav",
+    "duracao_audio_s": 303.5,
+    "observacao": "RTF = tempo_de_parede / duracao_do_audio; qualidade (WER) exige checagem manual",
+    "resultados": [
+      {
+        "backend": "cpu",
+        "modelo": "medium",
+        "disponivel": true,
+        "execucoes_s": [
+          184.05,
+          179.08
+        ],
+        "mediana_s": 181.56,
+        "rtf": 0.598,
+        "pico_vram_mb": null
+      },
+      {
+        "backend": "cpu",
+        "modelo": "large-v3-turbo",
+        "disponivel": true,
+        "execucoes_s": [
+          164.75,
+          167.41
+        ],
+        "mediana_s": 166.08,
+        "rtf": 0.547,
+        "pico_vram_mb": null
+      }
+    ]
+  }
+}
